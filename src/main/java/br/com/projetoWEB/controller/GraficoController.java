@@ -28,6 +28,8 @@ public class GraficoController implements Serializable {
 
 	private PieChartModel pieModel = new PieChartModel();
 
+	private PieChartModel pieModel2 = new PieChartModel();
+
 	private Ator ator = new Ator();
 
 	private Genero genero;
@@ -47,11 +49,12 @@ public class GraficoController implements Serializable {
 
 	public void preRender() {
 		initPieModel("Informações");
+		initModel("Informações");
 		genero = new Genero();
 	}
 
-	public void teste() {
-		adcionarValue("Informações");
+	public void selectGenero() {
+		adcionarValue("Atores por Filme");
 	}
 
 	private void adcionarValue(String titulo) {
@@ -66,6 +69,7 @@ public class GraficoController implements Serializable {
 				serie.setLabel(filme.getNome());
 				serie.set(filme.getNome(), filme.getAtores().size());
 			}
+			this.modelBar.setTitle(titulo);
 			this.modelBar.setLegendLabel("Filmes");
 			this.modelBar.setAnimate(true);
 			this.modelBar.addSeries(serie);
@@ -103,14 +107,14 @@ public class GraficoController implements Serializable {
 
 	private void initModel(String rotulo) {
 		for (Genero genero : generoDao.findAll(Genero.class)) {
-			pieModel.set(genero.getNome(), filmeDao.findByAtributeList(Filme.class, "genero", genero).size());
+			pieModel2.set(genero.getNome(), filmeDao.findByAtributeList(Filme.class, "genero", genero).size());
 		}
-		pieModel.setLegendPosition("e");
-		pieModel.setFill(false);
-		pieModel.setShowDataLabels(true);
-		pieModel.setDiameter(150);
-		pieModel.setShadow(false);
-		pieModel.setTitle(rotulo);
+		pieModel2.setLegendPosition("w");
+		pieModel2.setFill(false);
+		pieModel2.setShowDataLabels(true);
+		pieModel2.setDiameter(150);
+		pieModel2.setShadow(false);
+		pieModel2.setTitle(rotulo);
 	}
 
 	public BarChartModel getModelBar() {
@@ -119,6 +123,10 @@ public class GraficoController implements Serializable {
 
 	public PieChartModel getPieModel() {
 		return pieModel;
+	}
+
+	public PieChartModel getPieModel2() {
+		return pieModel2;
 	}
 
 	public Ator getAtor() {

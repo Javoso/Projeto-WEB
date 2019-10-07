@@ -12,6 +12,13 @@
 	</f:metadata>
 
 	<ui:define name="content">
+
+		<style type="text/css">
+.right div {
+	float: right;
+}
+</style>
+
 		<h1>Dashboard</h1>
 
 		<div class="ui-g-12">
@@ -40,7 +47,8 @@
 							noSelectionOption="true" />
 						<f:selectItems value="#{generoController.generos}" var="genero"
 							itemLabel="#{genero.nome}" itemValue="#{genero}" />
-						<p:ajax process="@this" listener="#{graficoController.teste}"
+						<p:ajax process="@this"
+							listener="#{graficoController.selectGenero}"
 							update="graficoBarra" />
 					</p:selectOneMenu>
 					<p:message for="genero" />
@@ -53,8 +61,14 @@
 			model="#{graficoController.modelBar}"
 			rendered="#{usuarioLogado.admin}" style="height:300px;" />
 
-		<p:chart type="pie" model="#{graficoController.pieModel}"
-			rendered="#{usuarioLogado.admin}" style="width:400px;height:300px" />
+
+		<h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+			<p:chart type="pie" model="#{graficoController.pieModel}"
+				rendered="#{usuarioLogado.admin}" style="width:400px;height:300px" />
+			
+			<p:chart type="pie" model="#{graficoController.pieModel2}"
+				rendered="#{usuarioLogado.admin}" style="width:400px;height:300px" />
+		</h:panelGrid>
 
 		<div id="DivA-card" class="container"
 			style="background: #00BCD4; margin-right: 10px;">
