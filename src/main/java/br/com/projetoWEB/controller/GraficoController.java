@@ -1,5 +1,6 @@
 package br.com.projetoWEB.controller;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 import java.io.Serializable;
@@ -50,6 +51,9 @@ public class GraficoController implements Serializable {
 	public void preRender() {
 		initPieModel("Informações");
 		initModel("Informações");
+	if(isNull(genero)) {
+		adcionarValueFull("Atores por Filme");
+	}
 		genero = new Genero();
 	}
 
@@ -91,6 +95,20 @@ public class GraficoController implements Serializable {
 			this.modelBar.setShowDatatip(true);
 			this.modelBar.addSeries(serie);
 		}
+	}
+
+	private void adcionarValueFull(String titulo) {
+		ChartSeries serie = new ChartSeries(titulo);
+		for (Filme filme : filmeDao.findAll(Filme.class)) {
+			serie.setLabel(filme.getNome());
+			serie.set(filme.getNome(), filme.getAtores().size());
+		}
+		this.modelBar.setTitle(titulo);
+		this.modelBar.setLegendLabel("Filmes");
+		this.modelBar.setAnimate(true);
+		this.modelBar.addSeries(serie);
+		this.modelBar.setShowPointLabels(true);
+		this.modelBar.setShowDatatip(true);
 	}
 
 	private void initPieModel(String rotulo) {

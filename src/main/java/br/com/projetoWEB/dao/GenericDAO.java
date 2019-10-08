@@ -46,7 +46,7 @@ public class GenericDAO<T> implements Serializable {
 		cq.select(root);
 		return manager.createQuery(cq).getResultList();
 	}
-
+	
 	public List<T> findByAtributeList(Class<T> entity, String valor, String nameAtribute) {
 		CriteriaBuilder builder = this.manager.getCriteriaBuilder();
 		CriteriaQuery<T> cq = builder.createQuery(entity);
@@ -65,6 +65,7 @@ public class GenericDAO<T> implements Serializable {
 		if (nonNull(valor) && StringUtils.isNoneBlank(nameAtribute)) {
 			Predicate condicao = builder.equal(root.get(nameAtribute), valor);
 			cq.where(condicao);
+			
 		}
 		return this.manager.createQuery(cq).getResultList();
 	}

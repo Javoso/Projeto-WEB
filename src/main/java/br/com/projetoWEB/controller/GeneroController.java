@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import br.com.projetoWEB.dao.GenericDAO;
 import br.com.projetoWEB.model.Genero;
-import br.com.projetoWEB.model.Sexo;
+import br.com.projetoWEB.model.enumerated.Sexo;
 import br.com.projetoWEB.util.jsf.FacesUtil;
 
 @Named
@@ -70,7 +70,7 @@ public class GeneroController implements Serializable {
 		FacesUtil.addMensagem().info("Editado com sucesso!").para("msg").mantendoMensagemAposRedirect();
 		daoGenero.editar(genero);
 		genero = new Genero();
-		return "/exibir/generos?faces-redirect=true";
+		return "/pages/exibir/generos?faces-redirect=true";
 	}
 
 	public Long getIdGenero() {

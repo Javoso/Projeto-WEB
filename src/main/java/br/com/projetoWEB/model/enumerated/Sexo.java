@@ -1,4 +1,4 @@
-package br.com.projetoWEB.model;
+package br.com.projetoWEB.model.enumerated;
 
 public enum Sexo {
 	

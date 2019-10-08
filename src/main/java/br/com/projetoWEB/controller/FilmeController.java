@@ -94,9 +94,8 @@ public class FilmeController implements Serializable {
 			FacesUtil.addMensagem().info("Editado com sucesso!").para("msg").mantendoMensagemAposRedirect();
 			daoFilme.editar(filme);
 			filme = new Filme();
-			return "filmes?faces-redirect=true";
 		}
-		return "";
+		return "/pages/exibir/filmes?faces-redirect=true";
 	}
 
 	public Long getIdFilme() {

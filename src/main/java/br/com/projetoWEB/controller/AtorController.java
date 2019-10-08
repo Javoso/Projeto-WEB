@@ -14,7 +14,8 @@ import org.primefaces.event.FileUploadEvent;
 
 import br.com.projetoWEB.dao.GenericDAO;
 import br.com.projetoWEB.model.Ator;
-import br.com.projetoWEB.model.Sexo;
+import br.com.projetoWEB.model.enumerated.Sexo;
+import br.com.projetoWEB.model.enumerated.Status;
 import br.com.projetoWEB.util.jsf.FacesUtil;
 
 @Named
@@ -56,6 +57,7 @@ public class AtorController implements Serializable {
 	public void cadastrar() {
 		if (StringUtils.isNotBlank(this.ator.getNome()) && StringUtils.isNotBlank(base64)) {
 			this.ator.setImagem(base64);
+			this.ator.setStatus(Status.ATIVADO);
 			daoAtor.salvar(this.ator);
 			FacesUtil.addMensagem().info("Cadastrado com sucesso!").para("msg");
 		} else {
@@ -65,14 +67,14 @@ public class AtorController implements Serializable {
 	}
 
 	public List<Ator> getAtores() {
-		return daoAtor.findAll(Ator.class);
+		return daoAtor.findByAtributeList(Ator.class, "status", Status.ATIVADO);
 	}
 
 	public void excluir() {
-		daoAtor.remover(Ator.class, ator.getId());
+		this.ator.setStatus(Status.DESATIVADO);
+		daoAtor.editar(ator);
 		FacesUtil.addMensagem().warn("Excluído com sucesso!").para("msg");
 		this.ator = new Ator();
-
 	}
 
 	public String editar() {
@@ -83,9 +85,8 @@ public class AtorController implements Serializable {
 			FacesUtil.addMensagem().info("Editado com sucesso!").para("msg").mantendoMensagemAposRedirect();
 			daoAtor.editar(ator);
 			ator = new Ator();
-			return "/exibir/atores?faces-redirect=true";
 		}
-		return "";
+		return "/pages/exibir/atores?faces-redirect=true";
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {

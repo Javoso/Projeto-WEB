@@ -73,7 +73,7 @@
 
 					<p:column headerText="Atores">
 						<ui:repeat var="ator" value="#{f.atores}">
-							<p:commandButton value="#{ator.nome}" update=":tabela:detalhes"
+							<p:commandButton value="#{ator.nome}" rendered="#{ator.status eq 'ATIVADO'}" update=":tabela:detalhes"
 								oncomplete="PF('ator-detalhes').show()" style="margin: 5px;">
 								<f:setPropertyActionListener value="#{ator}"
 									target="#{filmeController.atorMostrar}" />

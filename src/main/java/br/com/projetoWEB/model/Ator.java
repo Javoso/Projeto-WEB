@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
+import br.com.projetoWEB.model.enumerated.Sexo;
+import br.com.projetoWEB.model.enumerated.Status;
+
 @Entity
 public class Ator implements Serializable {
 
@@ -19,6 +22,8 @@ public class Ator implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String nome;
+	@Enumerated(EnumType.STRING)
+	private Status status;
 	private String sobrenome;
 	@Lob
 	private String imagem;
@@ -76,14 +81,24 @@ public class Ator implements Serializable {
 	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
-	
+
 	public String getImagem() {
 		return imagem;
 	}
-	
+
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
 	}
+
+	@Enumerated(EnumType.STRING)
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

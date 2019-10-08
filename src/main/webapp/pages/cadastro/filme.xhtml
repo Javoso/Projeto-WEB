@@ -69,7 +69,7 @@
 							converter="atorConverter"
 							requiredMessage="Campo 'Atores' é obrigatório">
 							<f:selectItems value="#{atorController.atores}" var="ator"
-								itemLabel="#{ator.nome}" />
+								itemLabel="#{ator.nome}" rendered="#{ator.status eq 'ATIVADO'}" />
 							<f:attribute name="collectionType" value="java.util.ArrayList" />
 						</p:selectCheckboxMenu>
 						<p:message for="atores" />
