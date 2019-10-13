@@ -51,9 +51,18 @@
 
 		<commons-loggin.version>1.2</commons-loggin.version>
 
+<!-- 		<hibernate.jpamodelgen.version>1.0.0.Final</hibernate.jpamodelgen.version> -->
+
 	</properties>
 
 	<dependencies>
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.hibernate</groupId> -->
+<!-- 			<artifactId>hibernate-jpamodelgen</artifactId> -->
+<!-- 			<version>${hibernate.jpamodelgen.version}</version> -->
+<!-- 		</dependency> -->
+
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>

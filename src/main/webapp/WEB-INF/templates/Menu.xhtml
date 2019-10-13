@@ -19,6 +19,9 @@
 					<i class=" fa fa-fw fa-video-camera"></i>Filme</h:link></li>
 			<li><h:link outcome="/pages/exibir/generos">
 					<i class="fa  fa-fw fa-file-text"></i>Gênero</h:link></li>
+			<li><h:link rendered="#{usuarioLogado.admin}"
+					outcome="/pages/exibir/usuarios">
+					<i class="fa  fa-fw fa-users"></i>Usuário</h:link></li>
 			<h:form>
 				<li><h:commandLink action="#{usuarioLogado.doLogout}">
 						<i class="fa fa-sign-out"></i>Logout

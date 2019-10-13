@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 
+import br.com.projetoWEB.model.enumerated.Status;
 import br.com.projetoWEB.util.jpa.Transactional;
 
 public class GenericDAO<T> implements Serializable {
@@ -46,7 +47,7 @@ public class GenericDAO<T> implements Serializable {
 		cq.select(root);
 		return manager.createQuery(cq).getResultList();
 	}
-	
+
 	public List<T> findByAtributeList(Class<T> entity, String valor, String nameAtribute) {
 		CriteriaBuilder builder = this.manager.getCriteriaBuilder();
 		CriteriaQuery<T> cq = builder.createQuery(entity);
@@ -65,7 +66,7 @@ public class GenericDAO<T> implements Serializable {
 		if (nonNull(valor) && StringUtils.isNoneBlank(nameAtribute)) {
 			Predicate condicao = builder.equal(root.get(nameAtribute), valor);
 			cq.where(condicao);
-			
+
 		}
 		return this.manager.createQuery(cq).getResultList();
 	}
@@ -90,6 +91,12 @@ public class GenericDAO<T> implements Serializable {
 			cq.where(condicao);
 		}
 		return this.manager.createQuery(cq).getSingleResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<T> findByAtributeWithJoinStatusAtivado(String namedQuery, String parameter, String value) {
+		return this.manager.createNamedQuery(namedQuery).setParameter(parameter, value)
+				.setParameter("status", Status.ATIVADO).getResultList();
 	}
 
 	@Transactional

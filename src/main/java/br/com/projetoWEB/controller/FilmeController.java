@@ -51,10 +51,6 @@ public class FilmeController implements Serializable {
 		}
 	}
 
-	public List<String> getAtoresComplete() {
-		return atoresComplet = Arrays.asList("Javoso", "Lucas", "Maria", "Margarida", "Mateus", "Selma", "Francisca");
-	}
-
 	public void cadastrar() {
 		if (StringUtils.isNotBlank(this.filme.getNome()) && StringUtils.isNotBlank(base64)) {
 			this.filme.setImagem(base64);

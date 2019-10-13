@@ -35,6 +35,8 @@
 							noSelectionOption="true" />
 						<f:selectItems value="#{atorController.atores}" var="ator"
 							itemLabel="#{ator.nome}" />
+						<p:ajax process="@this" listener="#{graficoController.selectAtor}"
+							update="graficoBarra" />
 					</p:selectOneMenu>
 					<p:message for="atores" />
 				</div>
@@ -59,15 +61,19 @@
 
 		<p:chart id="graficoBarra" type="bar"
 			model="#{graficoController.modelBar}"
-			rendered="#{usuarioLogado.admin}" style="height:300px;" />
+			rendered="#{usuarioLogado.admin}" responsive="true" />
 
 
-		<h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+		<h:panelGrid columns="3" columnClasses="right, left">
+
 			<p:chart type="pie" model="#{graficoController.pieModel}"
-				rendered="#{usuarioLogado.admin}" style="width:400px;height:300px" />
-			
+				rendered="#{usuarioLogado.admin}" style="width:350px;height:300px" />
+
 			<p:chart type="pie" model="#{graficoController.pieModel2}"
-				rendered="#{usuarioLogado.admin}" style="width:400px;height:300px" />
+				rendered="#{usuarioLogado.admin}" style="width:350px;height:300px" />
+
+			<p:chart type="pie" model="#{graficoController.pieModel3}"
+				rendered="#{usuarioLogado.admin}" style="width:350px;height:300px" />
 		</h:panelGrid>
 
 		<div id="DivA-card" class="container"

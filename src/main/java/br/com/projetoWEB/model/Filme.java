@@ -15,8 +15,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQuery(name = "filmesPorAtor", query = "SELECT f FROM Filme f JOIN f.atores a WHERE a.nome = :nomeAtor AND a.status = :status")
 public class Filme implements Serializable {
 	private static final long serialVersionUID = -5654084668634006220L;
 
@@ -133,11 +135,10 @@ public class Filme implements Serializable {
 		return true;
 	}
 
-	// @Override
-	// public String toString() {
-	// return "Filme [id=" + id + ", nome=" + nome + ", genero=" + genero + ",
-	// atores=" + atores + ", dataLancamento="
-	// + dataLancamento + ", descricao=" + descricao + "]";
-	// }
+	@Override
+	public String toString() {
+		return "Filme [id=" + id + ", nome=" + nome + ", genero=" + genero + ", dataLancamento="
+				+ dataLancamento + ", descricao=" + descricao + "]";
+	}
 
 }
