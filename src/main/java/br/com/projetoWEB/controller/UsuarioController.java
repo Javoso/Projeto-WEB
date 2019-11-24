@@ -1,16 +1,20 @@
 package br.com.projetoWEB.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Base64;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import br.com.projetoWEB.dao.GenericDAO;
 import br.com.projetoWEB.model.Permissao;
@@ -19,7 +23,7 @@ import br.com.projetoWEB.model.enumerated.Status;
 import br.com.projetoWEB.util.jsf.FacesUtil;
 
 @Named
-@ViewScoped
+@SessionScoped
 public class UsuarioController implements Serializable {
 
 	private static final long serialVersionUID = -2437633336322408321L;
@@ -28,6 +32,7 @@ public class UsuarioController implements Serializable {
 	private String base64;
 	private Long idUsuario;
 	private Usuario usuario;
+	private StreamedContent content;
 
 	@Inject
 	private GenericDAO<Usuario> daoUsuario;
@@ -92,6 +97,19 @@ public class UsuarioController implements Serializable {
 		this.base64 = getEncodedContent(event.getFile().getContents());
 	}
 
+	public void handleFileUploadDocument(FileUploadEvent event) {
+		content = new DefaultStreamedContent(new ByteArrayInputStream(event.getFile().getContents()),
+				event.getFile().getContentType());
+		if (null != content) {
+			try {
+				content.getStream().reset();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
 	public String getEncodedContent(byte[] arquivo) {
 		return DATA_BASE64.concat(Base64.getEncoder().encodeToString(arquivo));
 	}
@@ -114,5 +132,13 @@ public class UsuarioController implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public StreamedContent getContent() {
+		return content;
+	}
+
+	public void setContent(StreamedContent content) {
+		this.content = content;
 	}
 }

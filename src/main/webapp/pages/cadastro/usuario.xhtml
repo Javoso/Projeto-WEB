@@ -3,7 +3,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <ui:composition template="/WEB-INF/templates/Layout.xhtml">
 	<ui:define name="content">
@@ -104,8 +105,30 @@
 							rendered="#{usuarioController.usuario.id != null}"
 							action="#{usuarioController.editar()}" value="Editar"
 							update="form" icon="pi pi-pencil" />
+						<br /> <br /> <br />
+						<p:commandButton value="Documento" update="form"
+							oncomplete="PF('dlg-document').show()" icon="pi pi-file" />
 					</div>
+					<p:dialog widgetVar="dlg-document" responsive="true" width="500px"
+						height="500px">
 
+						<p:fileUpload id="documento" required="true"
+							uploadLabel="Documento" cancelLabel="Cancelar"
+							requiredMessage="O campo 'Arquivo' é obrigatório" mode="advanced"
+							sizeLimit="5120000" multiple="false"
+							allowTypes="/(\.|\/)(jpe?g|png|pdf)$/"
+							invalidFileMessage="São permitidos somente arquivos (jpeg, jpg, png e pdf)"
+							invalidSizeMessage="O tamanho máximo permitido é de 5MB."
+							fileLimitMessage="Permitido apenas 1 arquivo" auto="true"
+							fileUploadListener="#{usuarioController.handleFileUploadDocument}">
+						</p:fileUpload>
+						<p:commandButton>
+							<p:ajax update="preView" />
+						</p:commandButton>
+						<br />
+						<pe:documentViewer id="preView" width="350px" height="350px"
+							value="#{usuarioController.content}" />
+					</p:dialog>
 				</h:form>
 			</div>
 

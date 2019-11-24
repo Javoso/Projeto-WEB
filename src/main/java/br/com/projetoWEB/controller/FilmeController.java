@@ -64,6 +64,7 @@ public class FilmeController implements Serializable {
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
+		event.getFile().getContentType();
 		this.base64 = getEncodedContent(event.getFile().getContents());
 	}
 
