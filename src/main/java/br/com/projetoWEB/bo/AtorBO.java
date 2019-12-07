@@ -18,9 +18,9 @@ public class AtorBO {
 	@Inject
 	private GenericDAO<Ator> dao;
 
-	public void salvar(Ator entity) {
-		if (isNull(entity)) {
-			dao.salvar(entity);
+	public void salvar(Ator obj) {
+		if (isNull(obj)) {
+			dao.salvar(obj);
 		}
 	}
 
