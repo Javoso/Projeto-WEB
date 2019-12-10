@@ -27,11 +27,11 @@
 
 		<h:form id="selectOptions">
 			<div class="select-">
-				<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12" id="DivA">
+				<div class="ui-g-4 ui-lg-4 ui-md-12 ui-sm-12" id="DivA">
 					<p:selectOneMenu id="atores" value="#{graficoController.ator}"
 						rendered="#{usuarioLogado.admin}" converter="atorConverter"
 						style="background-color:transparent;">
-						<f:selectItem itemLabel="Selecione um ator"
+						<f:selectItem itemLabel="Escolha uma turma"
 							noSelectionOption="true" />
 						<f:selectItems value="#{atorController.atores}" var="ator"
 							itemLabel="#{ator.nome}" />
@@ -41,11 +41,11 @@
 					<p:message for="atores" />
 				</div>
 
-				<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12" id="DivLateral">
+				<div class="ui-g-4 ui-lg-4 ui-md-12 ui-sm-12" id="DivLateral">
 					<p:selectOneMenu id="genero" value="#{graficoController.genero}"
 						rendered="#{usuarioLogado.admin}" converter="generoConverter"
 						style="background-color:transparent;">
-						<f:selectItem itemLabel="Selecione um gênero"
+						<f:selectItem itemLabel="Escolha uma faixa"
 							noSelectionOption="true" />
 						<f:selectItems value="#{generoController.generos}" var="genero"
 							itemLabel="#{genero.nome}" itemValue="#{genero}" />
@@ -64,37 +64,37 @@
 			rendered="#{usuarioLogado.admin}" responsive="true" />
 
 
-		<h:panelGrid columns="3" columnClasses="right, left">
+<!-- 		<h:panelGrid columns="3" columnClasses="right, left"> -->
 
-			<p:chart type="pie" model="#{graficoController.pieModel}"
-				rendered="#{usuarioLogado.admin}" style="width:350px;height:320px" />
+<!-- 			<p:chart type="pie" model="#{graficoController.pieModel}" -->
+<!-- 				rendered="#{usuarioLogado.admin}" style="width:350px;height:320px" /> -->
 
-			<p:chart type="pie" model="#{graficoController.pieModel2}"
-				rendered="#{usuarioLogado.admin}" style="width:350px;height:320px" />
+<!-- 			<p:chart type="pie" model="#{graficoController.pieModel2}" -->
+<!-- 				rendered="#{usuarioLogado.admin}" style="width:350px;height:320px" /> -->
 
-			<p:chart type="pie" model="#{graficoController.pieModel3}"
-				rendered="#{usuarioLogado.admin}" style="width:350px;height:320px" />
-		</h:panelGrid>
+<!-- 			<p:chart type="pie" model="#{graficoController.pieModel3}" -->
+<!-- 				rendered="#{usuarioLogado.admin}" style="width:350px;height:320px" /> -->
+<!-- 		</h:panelGrid> -->
 
 		<div id="DivA-card" class="container"
 			style="background: #00BCD4; margin-right: 10px;">
 			<div style="margin-top: 10px;" />
-			<div style="font-size: 20px; color: #fafafa;">Atores</div>
-			<div style="font-size: 27px; color: #fafafa; margin-left: 15px;">#{homeController.numeroAtores}</div>
+			<div style="font-size: 20px; color: #fafafa;">Alunos</div>
+			<div style="font-size: 27px; color: #fafafa; margin-left: 15px;">#{homeController.numeroAlunos}</div>
 		</div>
 		<div id="DivLateral-card" class="container"
 			style="background: #B37753; margin-right: 10px;">
 			<div style="margin-top: 10px;" />
-			<div style="font-size: 20px; color: #fafafa;">Filmes</div>
-			<div style="font-size: 27px; color: #fafafa; margin-left: 15px;">#{homeController.numeroFilmes}</div>
+			<div style="font-size: 20px; color: #fafafa;">Turmas</div>
+			<div style="font-size: 27px; color: #fafafa; margin-left: 15px;">#{homeController.numeroTurmas}</div>
 		</div>
-		<div id="DivLateral-card" class="container"
-			style="background: #624194;">
-			<div style="margin-top: 10px;" />
-			<div style="font-size: 20px; color: #fafafa;">Gêneros</div>
-			<div style="font-size: 27px; color: #fafafa; margin-left: 15px;">#{homeController.numeroGeneros}</div>
+<!-- 		<div id="DivLateral-card" class="container" -->
+<!-- 			style="background: #624194;"> -->
+<!-- 			<div style="margin-top: 10px;" /> -->
+<!-- 			<div style="font-size: 20px; color: #fafafa;">Gêneros</div> -->
+<!-- 			<div style="font-size: 27px; color: #fafafa; margin-left: 15px;">#{homeController.numeroGeneros}</div> -->
 
-		</div>
+<!-- 		</div> -->
 
 	</ui:define>
 

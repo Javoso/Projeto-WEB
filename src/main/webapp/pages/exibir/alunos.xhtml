@@ -1,0 +1,132 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/WEB-INF/templates/Layout.xhtml">
+	<ui:define name="content">
+		<h:head>
+			<title>Lista de Alunos</title>
+		</h:head>
+		<h:body>
+			<h:form id="menu">
+				<p:menubar>
+					<p:submenu icon="pi pi-file" label="Cadastrar"
+						rendered="#{usuarioLogado.admin}">
+						<p:menuitem outcome="/pages/cadastro/aluno" value="Aluno" />
+					</p:submenu>
+
+					<p:submenu icon="pi pi-list" label="Listar">
+						<p:menuitem outcome="alunos" value="Alunos" />
+					</p:submenu>
+				</p:menubar>
+				<br />
+			</h:form>
+
+			<div class="ui-g-12">
+				<p:growl id="msg" life="4000" showDetail="true" />
+			</div>
+
+
+			<h:form id="tabela">
+
+				<p:dataTable id="alunos-table" var="a"
+					value="#{alunoController.alunos}" rowHover="true"
+					sortBy="#{a.nomeAluno}">
+
+					<f:facet name="header">
+						<h2>Lista de alunos</h2>
+					</f:facet>
+
+					<p:column headerText="Nome">
+				#{a.nomeAluno}
+			</p:column>
+
+					<p:column headerText="CPF">
+				#{a.CPF}
+			</p:column>
+
+					<p:column headerText="Idade" style="width:40px; text-align:center;">
+				#{a.idade}
+			</p:column>
+
+					<p:column headerText="Sexo">
+				#{a.sexo}
+			</p:column>
+
+					<p:column headerText="Faixa"
+						style="text-align: center; font-weight:bold; border:2px; color: #{a.faixaDeGraduacao.cor};">
+				#{a.faixaDeGraduacao}
+			</p:column>
+
+					<p:column headerText="Nome do Responsável">
+				#{a.nomeResponsavel}
+			</p:column>
+
+					<p:column headerText="Telefone do Responsável">
+						
+				#{a.telefoneDoResponsavel}
+			</p:column>
+					<p:column headerText="Endereço" style="text-align:center">
+						<p:commandButton icon="pi pi-eye" update="tabela:dlg"
+							oncomplete="PF('dlg-endereco').show()">
+							<f:setPropertyActionListener value="#{a}"
+								target="#{alunoController.aluno}" />
+						</p:commandButton>
+					</p:column>
+
+					<p:column headerText="Ações" style="text-align: center;"
+						rendered="#{usuarioLogado.admin}">
+						<p:button value="Editar" immediate="true" style="margin: 5px;"
+							icon="pi pi-pencil" outcome="/pages/cadastro/aluno">
+							<f:param name="id" value="#{a.id}" />
+						</p:button>
+
+						<p:commandButton action="#{alunoController.excluir}"
+							value="Excluir" immediate="true" update="tabela:alunos-table"
+							icon="pi pi-trash" style="background: #D92F21; border: none;">
+							<p:confirm header="Confirmation"
+								message="Tem certeza que quer exluir este aluno? "
+								icon="pi pi-exclamation-triangle" />
+							<f:setPropertyActionListener value="#{a}"
+								target="#{alunoController.aluno}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+
+				<p:dialog id="dlg" widgetVar="dlg-endereco"
+					header="Endereço do Aluno">
+					<h:panelGrid columns="2">
+						<p:outputLabel for="numero" value="Número:" />
+						<h:outputText id="numero"
+							value="#{alunoController.aluno.endereco.numeroCasa}" />
+						<p:outputLabel for="rua" value="Rua:" />
+						<h:outputText id="rua"
+							value="#{alunoController.aluno.endereco.rua}" />
+						<p:outputLabel for="complemento" value="Complemento:" />
+						<h:outputText id="complemento"
+							value="#{alunoController.aluno.endereco.complemento}" />
+						<p:outputLabel for="pontoDeReferencia"
+							value="Ponto de Referência:" />
+						<h:outputText id="pontoDeReferencia"
+							value="#{alunoController.aluno.endereco.pontoReferencia}" />
+					</h:panelGrid>
+				</p:dialog>
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						style="background-color:#28A745; border:none"
+						styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="Não" type="button"
+						style="background-color:#DC3545; border: none"
+						styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+				</p:confirmDialog>
+			</h:form>
+
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

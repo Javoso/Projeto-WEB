@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+
+	<h:head>
+		<title>Frequencia</title>
+		<h:outputStylesheet library="css" name="style.css" />
+		<h:outputScript library="js" name="app.js" />
+	</h:head>
+
+	<f:metadata>
+		<f:viewParam name="id"
+			value="#{frequenciaController.idFrequenciaAula}" />
+		<f:event listener="#{frequenciaController.prepararParaEditar}"
+			type="preRenderView"></f:event>
+	</f:metadata>
+
+	<ui:define name="content">
+		<h:body>
+
+			<div class="ui-fluid">
+
+				<h:form id="menu">
+					<p:menubar>
+						<p:submenu icon="pi pi-file" label="Cadastrar">
+							<p:menuitem outcome="/pages/cadastro/frequencia"
+								value="Frequência" />
+						</p:submenu>
+
+						<p:submenu icon="pi pi-list" label="Listar">
+							<p:menuitem outcome="/pages/exibir/frequencias"
+								value="Frequências" />
+						</p:submenu>
+					</p:menubar>
+				</h:form>
+
+				<div class="ui-g-12">
+					<p:growl id="msg" life="4000" showDetail="true" />
+				</div>
+
+				<h:form id="form">
+
+					<h1>#{frequenciaController.frequenciaAula.id == null ?
+						'Cadastrar' : 'Editar'} frequência</h1>
+
+					<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+						<p:outputLabel for="data-frequencia" value="Data da Frequência" />
+						<p:calendar id="data-frequencia"
+							value="#{frequenciaController.frequenciaAula.dataDaFrequencia}"
+							pattern="dd/MM/yyyy" required="true"
+							requiredMessage="Campo 'Data da Frequência' é obrigatório" />
+						<p:message for="data-frequencia" />
+					</div>
+
+					<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+						<p:outputLabel for="turma" value="Turma" />
+
+						<p:selectOneMenu id="turma" value="#{frequenciaController.turma}"
+							converter="turmaConverter" style="background-color:transparent;"
+							required="true" requiredMessage="Campo 'Turma' é obrigatório">
+
+							<f:selectItem itemLabel="Selecione uma turma"
+								noSelectionOption="true" />
+							<f:selectItems value="#{frequenciaController.turmas}" var="turma"
+								itemLabel="#{turma.nomeDaTurma}" itemValue="#{turma}" />
+							<p:ajax update="form" event="change" immediate="true"
+								listener="#{frequenciaController.atualizarData()}" />
+						</p:selectOneMenu>
+						<p:message for="turma" />
+					</div>
+
+					<div class="ui-g-4 ui-lg-4 ui-md-12 ui-sm-12">
+						<p:outputLabel for="obs" value="Observação" />
+						<p:inputTextarea id="obs"
+							value="#{filmeController.filme.descricao}" required="true"
+							requiredMessage="Campo 'Observação' é obrigatório" />
+						<p:message for="obs" />
+					</div>
+
+					<div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+						<p:outputLabel id="turma-nome"
+							value="#{frequenciaController.turma.nomeDaTurma}" />
+						<p:dataTable id="alunos-table" var="a" scrollable="true"
+							rowKey="#{a.id}"
+							selection="#{frequenciaController.frequenciaAula.alunosFrequentes}"
+							scrollWidth="true" value="#{frequenciaController.turma.alunos}"
+							rowHover="true" sortBy="#{a.nomeAluno}">
+
+							<f:facet name="header">
+								<h2>Lista de alunos para turma</h2>
+							</f:facet>
+
+							<p:column selectionMode="multiple" style="text-align:center;">
+							</p:column>
+
+							<p:column headerText="Nome">
+								#{a.nomeAluno}
+							</p:column>
+							<p:column headerText="CPF">
+								#{a.CPF}
+							</p:column>
+							<p:column headerText="Idade">
+								#{a.idade}
+							</p:column>
+							<p:column headerText="Sexo">
+								#{a.sexo}
+							</p:column>
+
+							<p:column headerText="Faixa"
+								style="text-align: center; font-weight:bold; border:2px; color: #{a.faixaDeGraduacao.cor};">
+								#{a.faixaDeGraduacao}
+							</p:column>
+
+							<p:column headerText="Nome do Responsável">
+								#{a.nomeResponsavel}
+							</p:column>
+
+							<p:column headerText="Telefone do Responsável">
+								#{a.telefoneDoResponsavel}
+							</p:column>
+
+							<p:column headerText="Endereço" style="text-align:center">
+								<p:commandButton icon="pi pi-eye" update="form:dlg-endereco"
+									oncomplete="PF('dlg-endereco').show()">
+									<f:setPropertyActionListener value="#{a}"
+										target="#{turmaController.aluno}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</div>
+					<div class="ui-g-2 ui-lg-2 ui-md-4 ui-sm-12">
+						<p:commandButton
+							rendered="#{frequenciaController.frequenciaAula.id == null}"
+							action="#{frequenciaController.cadastrar}" value="Cadastrar"
+							update="form" icon="fa fa-save" />
+
+						<p:commandButton
+							rendered="#{frequenciaController.frequenciaAula.id != null}"
+							action="#{frequenciaController.editar}" value="Editar"
+							update="form" icon="fa fa-pencil" />
+					</div>
+
+				</h:form>
+			</div>
+		</h:body>
+	</ui:define>
+</ui:composition>

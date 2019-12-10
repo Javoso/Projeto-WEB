@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/Layout.xhtml">
+	<ui:define name="content">
+		<h:head charset="UTF-8">
+			<title>#{alunoController.idAluno eq null ? Cadastro :
+				Atualização } de Aluno</title>
+		</h:head>
+
+		<f:metadata>
+			<f:viewParam name="id" value="#{alunoController.idAluno}" />
+			<f:event listener="#{alunoController.prepararParaEditar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:body>
+
+			<div class="ui-fluid">
+				<h:form id="menu">
+					<p:menubar>
+						<p:submenu icon="pi pi-file" label="Cadastrar">
+							<p:menuitem outcome="aluno" value="Aluno" />
+						</p:submenu>
+						<p:submenu icon="pi pi-list" label="Listar">
+							<p:menuitem outcome="/pages/exibir/alunos" value="Alunos" />
+						</p:submenu>
+					</p:menubar>
+				</h:form>
+
+				<div class="ui-g-12">
+					<p:messages id="msg" life="8000" showDetail="true" closable="true" />
+				</div>
+
+				<h:form id="form">
+
+					<h1>#{alunoController.aluno.id == null ? 'Cadastrar' :
+						'Editar'} aluno</h1>
+
+					<div class="ui-g-4 ui-lg-4 ui-md-8 ui-sm-12">
+						<p:outputLabel for="nome" value="Nome" />
+						<p:inputText id="nome" value="#{alunoController.aluno.nomeAluno}"
+							required="true"
+							requiredMessage="Campo 'Nome Aluno' é obrigatório" />
+						<p:message for="nome" />
+					</div>
+
+					<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+						<p:outputLabel for="nomeResponsavel" value="Nome do reponsável" />
+						<p:inputText id="nomeResponsavel"
+							value="#{alunoController.aluno.nomeResponsavel}" required="true"
+							requiredMessage="Campo 'Nome do responsável' é obrigatório" />
+						<p:message for="nomeResponsavel" />
+					</div>
+					<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+						<p:outputLabel for="telefoneResponsavel"
+							value="Telefone do Responsavel" />
+						<p:inputMask id="telefoneResponsavel" mask="(99) 9-9999-9999"
+							value="#{alunoController.aluno.telefoneDoResponsavel}"
+							required="true"
+							requiredMessage="Campo 'Telefone do Responsavel' é obrigatório" />
+						<p:message for="telefoneResponsavel" />
+					</div>
+					<div class="ui-g-4 ui-lg-4 ui-md-12 ui-sm-12">
+						<p:outputLabel for="idade" value="Idade do Aluno" />
+						<p:inputText id="idade" value="#{alunoController.aluno.idade}"
+							required="true" requiredMessage="Campo 'Idade' é obrigatório" />
+						<p:message for="idade" />
+					</div>
+
+					<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+						<p:outputLabel for="CPF" value="CPF" />
+						<p:inputMask id="CPF" value="#{alunoController.aluno.CPF}"
+							mask="999.999.999-99" required="true"
+							requiredMessage="Campo 'CPF' é obrigatório" />
+						<p:message for="CPF" />
+					</div>
+					<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+						<p:outputLabel for="endereco" value="Endereço" />
+						<p:commandButton id="endereco" value="Endereço"
+							oncomplete="PF('dlg-endereco').show()" icon="pi pi-plus" />
+						<p:message for="endereco" />
+					</div>
+
+					<div class="ui-g-12 ui-g-nopad">
+						<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+							<p:outputLabel for="sexo" value="Sexo" />
+							<p:selectOneMenu id="sexo" value="#{alunoController.aluno.sexo}"
+								required="true" requiredMessage="Campo 'Sexo' é obrigatório">
+								<f:selectItem itemLabel="-- Selecione --"
+									noSelectionOption="true" />
+								<f:selectItems value="#{alunoController.sexos}" var="sexo"
+									itemLabel="#{sexo}" itemValue="#{sexo}" />
+							</p:selectOneMenu>
+							<p:message for="sexo" />
+						</div>
+						<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+							<p:outputLabel for="faixa" value="Faixa de Graduação" />
+							<p:selectOneMenu id="faixa"
+								value="#{alunoController.aluno.faixaDeGraduacao}"
+								required="true"
+								requiredMessage="Campo 'Faixa de Graduação' é obrigatório">
+								<f:selectItem itemLabel="-- Selecione --"
+									noSelectionOption="true" />
+								<f:selectItems value="#{alunoController.faixasGraduacao}"
+									style="background-color:#{faixa.color}" var="faixa"
+									itemLabel="#{faixa}" itemValue="#{faixa}" />
+							</p:selectOneMenu>
+							<p:message for="faixa" />
+						</div>
+					</div>
+
+					<div class="ui-g-2 ui-lg-2 ui-md-4 ui-sm-12">
+						<p:commandButton rendered="#{alunoController.aluno.id == null}"
+							action="#{alunoController.cadastrar()}" value="Cadastrar"
+							update="form" icon="pi pi-save" />
+
+						<p:commandButton rendered="#{alunoController.aluno.id != null}"
+							action="#{alunoController.editar()}" value="Editar" update="form"
+							icon="pi pi-pencil" />
+					</div>
+
+					<p:dialog widgetVar="dlg-endereco" header="Endereço do Aluno"
+						width="350" height="300" style="text-aling: center">
+						<h:panelGroup>
+							<p:outputLabel for="numero" value="Número:" />
+							<p:inputText id="numero"
+								value="#{alunoController.aluno.endereco.numeroCasa}"
+								required="true" requiredMessage="Campo 'Número' é obrigatório" />
+							<br />
+							<p:outputLabel for="rua" value="Rua:" />
+							<p:inputText id="rua"
+								value="#{alunoController.aluno.endereco.rua}" required="true"
+								requiredMessage="Campo 'Rua' é obrigatório" />
+							<br />
+							<p:outputLabel for="complemento" value="Complemento:" />
+							<p:inputText id="complemento"
+								value="#{alunoController.aluno.endereco.complemento}"
+								required="true"
+								requiredMessage="Campo 'Complemento' é obrigatório" />
+							<br />
+							<p:outputLabel for="pontoDeReferencia"
+								value="Ponto de Referência:" />
+							<p:inputTextarea id="pontoDeReferencia"
+								value="#{alunoController.aluno.endereco.pontoReferencia}"
+								required="true"
+								requiredMessage="Campo 'Ponto de Referência' é obrigatório" />
+						</h:panelGroup>
+						<br />
+						<p:commandButton value="Fechar"
+							style="background-color:#DC3545; border:none; width:80px; height:30px;
+								  float:right"
+							oncomplete="PF('dlg-endereco').hide()" />
+					</p:dialog>
+
+				</h:form>
+			</div>
+
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

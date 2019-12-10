@@ -56,24 +56,18 @@ public class GraficoController implements Serializable {
 	public void preRender() {
 		if (isNull(genero.getId()) && isNull(ator.getId())) {
 			adcionarValueFull("Atores por Filme");
-			FacesUtil.addMensagem().info("Esse é o grafíco default!").para("msg").mantendoMensagemAposRedirect();
-		}
+			}
 		initPieModel("Filmes por gênero");
 		initModel("Filmes por ator");
 		initModelFilme("Atores por filme");
-
-		FacesUtil.addMensagem().info("Grafícos de pizza foram inicializados.").para("msg")
-				.mantendoMensagemAposRedirect();
 	}
 
 	public void selectGenero() {
 		adcionarValueGenero("Atores por Filme");
-		FacesUtil.addMensagem().info("Grafíco por gênero inicializado.").para("msg").mantendoMensagemAposRedirect();
 	}
 
 	public void selectAtor() {
 		adcionarValueAtor("Filme por Ator");
-		FacesUtil.addMensagem().info("Grafíco por ator inicializado.").para("msg").mantendoMensagemAposRedirect();
 	}
 
 	private void adcionarValueAtor(String titulo) {

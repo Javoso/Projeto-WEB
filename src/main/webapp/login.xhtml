@@ -42,7 +42,8 @@
 		<div class="card shadow-effect hei-auto-on-mobile">
 
 			<div class="centralizado" style="margin: auto;">
-				<p:graphicImage library="img" name="avatar_login.png" width="150px" />
+				<br /> <br />
+				<p:graphicImage library="img" name="avatar_login.png" width="300px" />
 				<br />
 				<p:outputLabel value="Login"
 					style="font-size: 25px; color: #555; margin-top: 20px; text-align: center;" />
@@ -74,10 +75,10 @@
 						<p:spacer />
 						<p:spacer />
 
-						<p:commandButton value="Acessar" icon="fa fa sign-out"
+						<p:commandButton value="Acessar" icon="pi pi-sign-out"
 							ajax="false" action="#{loginController.logar}"
-							style="height: 35px" styleClass="button-blue" id="logar"
-							outcome="Inicio" />
+							style="height: 35px; text-align:center;" styleClass="button-blue"
+							id="logar" outcome="Inicio" />
 
 					</h:panelGrid>
 				</h:form>

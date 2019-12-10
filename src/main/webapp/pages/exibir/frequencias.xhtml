@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+
+	<h:head>
+		<title>Filme</title>
+	</h:head>
+
+	<ui:define name="content">
+		<h:body>
+			<h:form id="menu">
+				<p:menubar>
+					<p:submenu icon="pi pi-file" label="Cadastrar"
+						rendered="#{usuarioLogado.admin}">
+						<p:menuitem outcome="/pages/cadastro/frequencia"
+							value="Frequência" />
+					</p:submenu>
+
+					<p:submenu icon="pi pi-list" label="Listar">
+						<p:menuitem outcome="/pages/exibir/frequencias"
+							value="Frequências" />
+					</p:submenu>
+				</p:menubar>
+				<br />
+			</h:form>
+
+			<div class="ui-g-12">
+				<p:growl id="msg" life="4000" showDetail="true" />
+			</div>
+
+
+			<h:form id="tabela">
+				<div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+					<p:dataTable id="cad-alunos-table" var="a" scrollable="true"
+						rowKey="#{a.id}" selection="#{turmaController.turma.alunos}"
+						scrollWidth="true" value="#{turmaController.alunos}"
+						rowHover="true" sortBy="#{a.nomeAluno}">
+
+						<f:facet name="header">
+							<h2>Lista de alunos da turma</h2>
+						</f:facet>
+
+						<p:column selectionMode="multiple" style="text-align:center;">
+						</p:column>
+
+						<p:column headerText="Nome">
+								#{a.nomeAluno}
+							</p:column>
+						<p:column headerText="CPF">
+								#{a.CPF}
+							</p:column>
+						<p:column headerText="Idade">
+								#{a.idade}
+							</p:column>
+						<p:column headerText="Sexo">
+								#{a.sexo}
+							</p:column>
+
+						<p:column headerText="Faixa"
+							style="text-align: center; font-weight:bold; border:2px; color: #{a.faixaDeGraduacao.cor};">
+								#{a.faixaDeGraduacao}
+							</p:column>
+
+						<p:column headerText="Nome do Responsável">
+								#{a.nomeResponsavel}
+							</p:column>
+
+						<p:column headerText="Telefone do Responsável">
+								#{a.telefoneDoResponsavel}
+							</p:column>
+
+						<p:column headerText="Endereço" style="text-align:center">
+							<p:commandButton icon="pi pi-eye" update="tabela:dlg-endereco"
+								oncomplete="PF('dlg-endereco').show()">
+								<f:setPropertyActionListener value="#{a}"
+									target="#{turmaController.aluno}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</div>
+				<p:dialog id="dlg-endereco" widgetVar="dlg-endereco"
+						header="Endereço do Aluno">
+						<h:panelGrid columns="2">
+							<p:outputLabel for="numero" value="Número:" />
+							<h:outputText id="numero"
+								value="#{turmaController.aluno.endereco.numeroCasa}" />
+							<p:outputLabel for="rua" value="Rua:" />
+							<h:outputText id="rua"
+								value="#{turmaController.aluno.endereco.rua}" />
+							<p:outputLabel for="complemento" value="Complemento:" />
+							<h:outputText id="complemento"
+								value="#{turmaController.aluno.endereco.complemento}" />
+							<p:outputLabel for="pontoDeReferencia"
+								value="Ponto de Referência:" />
+							<h:outputText id="pontoDeReferencia"
+								value="#{turmaController.aluno.endereco.pontoReferencia}" />
+						</h:panelGrid>
+						<p:commandButton value="Fechar"
+							oncomplete="PF('dlg-endereco').hide()"
+							style="background-color:#DC3545; border:none; width:80px; height:30px;
+								  float:right" />
+					</p:dialog>
+			</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>

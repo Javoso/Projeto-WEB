@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/Layout.xhtml">
+	<ui:define name="content">
+		<h:head charset="UTF-8">
+			<title>#{turmaController.idTurma eq null ? Cadastro :
+				Atualização } de Turma</title>
+		</h:head>
+
+		<f:metadata>
+			<f:viewParam name="id" value="#{turmaController.idTurma}" />
+			<f:event listener="#{turmaController.prepararParaEditar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:body>
+
+			<div class="ui-fluid">
+				<h:form id="menu">
+					<p:menubar>
+						<p:submenu icon="pi pi-file" label="Cadastrar">
+							<p:menuitem outcome="turma" value="Turma" />
+						</p:submenu>
+						<p:submenu icon="pi pi-list" label="Listar">
+							<p:menuitem outcome="/pages/exibir/turmas" value="Turmas" />
+						</p:submenu>
+					</p:menubar>
+				</h:form>
+
+				<div class="ui-g-12">
+					<p:messages id="msg" life="8000" showDetail="true" closable="true" />
+				</div>
+
+				<h:form id="form">
+
+					<h1>#{turmaController.turma.id == null ? 'Cadastrar' :
+						'Editar'} turma</h1>
+
+					<div class="ui-g-4 ui-lg-4 ui-md-8 ui-sm-12">
+						<p:outputLabel for="nome" value="Nome" />
+						<p:inputText id="nome"
+							value="#{turmaController.turma.nomeDaTurma}" required="true"
+							requiredMessage="Campo 'Nome' é obrigatório" />
+						<p:message for="nome" />
+					</div>
+
+					<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+						<p:outputLabel for="minimoAluno" value="Número minimo de alunos" />
+						<p:inputText id="minimoAluno" type="number"
+							value="#{turmaController.turma.minimoDeAlunos}" required="true"
+							requiredMessage="Campo 'Número minimo de alunos' é obrigatório" />
+						<p:message for="minimoAluno" />
+					</div>
+					<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+						<p:outputLabel for="maximoAluno" value="Número máximo de alunos" />
+						<p:inputText id="maximoAluno" type="number"
+							value="#{turmaController.turma.maximoDeAlunos}" required="true"
+							requiredMessage="Campo 'Número máximo de alunos' é obrigatório" />
+						<p:message for="maximoAluno" />
+					</div>
+					<div class="ui-g-4 ui-lg-4 ui-md-12 ui-sm-12">
+						<p:outputLabel for="idadeMinima" value="Idade minima dos alunos" />
+						<p:inputText id="idadeMinima"
+							value="#{turmaController.turma.idadeMinimaDosAlunos}"
+							required="true"
+							requiredMessage="Campo 'Idade Minima' é obrigatório" />
+						<p:message for="idadeMinima" />
+					</div>
+					<div class="ui-g-4 ui-lg-4 ui-md-12 ui-sm-12">
+						<p:outputLabel for="idadeMaxima" value="Idade máxima dos alunos" />
+						<p:inputText id="idadeMaxima" type="number"
+							value="#{turmaController.turma.idadeMaximaDosAlunos}"
+							required="true"
+							requiredMessage="Campo 'Idade Maxíma' é obrigatório" />
+						<p:message for="idadeMaxima" />
+					</div>
+
+					<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+						<p:outputLabel for="faixa" value="Faixa de Graduação" />
+						<p:selectOneMenu id="faixa"
+							value="#{turmaController.turma.faixaDeGraduacaoDaTurma}"
+							required="true"
+							requiredMessage="Campo 'Faixa de Graduação' é obrigatório">
+							<f:selectItem itemLabel="-- Selecione --"
+								noSelectionOption="true" />
+							<f:selectItems value="#{turmaController.faixasGraduacao}"
+								var="faixa" itemLabel="#{faixa}" itemValue="#{faixa}" />
+						</p:selectOneMenu>
+						<p:message for="faixa" />
+					</div>
+					<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+						<p:outputLabel for="dias" value="Dias da semana: " />
+						<p:spacer />
+						<p:selectCheckboxMenu id="dias"
+							value="#{turmaController.turma.diasDaSemana}" multiple="true"
+							filter="true" filterMatchMode="startsWith"
+							converter="diasConverter"
+							requiredMessage="Campo 'Dias da Semana' é obrigatório">
+							<f:selectItems value="#{turmaController.diasDaSemana}" var="dia"
+								itemLabel="#{dia.diaDaSemana}" />
+							<f:attribute name="collectionType" value="java.util.ArrayList" />
+						</p:selectCheckboxMenu>
+						<p:message for="dias" />
+					</div>
+					<div class="ui-g-4 ui-lg-4 ui-md-6 ui-sm-12">
+						<p:outputLabel for="aluno-add" value="Alunos: " />
+						<p:spacer />
+						<p:commandButton id="aluno-add" icon="pi pi-plus" ajax="true"
+							oncomplete="PF('alunos').show()" />
+						<p:message for="aluno-add" />
+					</div>
+ 					
+ 					
+					<div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+						<p:dataTable id="cad-alunos-table" var="a" scrollable="true" rendered="#{turmaController.turma.id eq null}"
+							rowKey="#{a.id}" selection="#{turmaController.turma.alunos}"
+							scrollWidth="true" value="#{turmaController.alunos}"
+							rowHover="true" sortBy="#{a.nomeAluno}">
+
+							<f:facet name="header">
+								<h2>Lista de alunos para turma</h2>
+							</f:facet>
+
+							<p:column selectionMode="multiple" style="text-align:center;">
+							</p:column>
+
+							<p:column headerText="Nome">
+								#{a.nomeAluno}
+							</p:column>
+							<p:column headerText="CPF">
+								#{a.CPF}
+							</p:column>
+							<p:column headerText="Idade">
+								#{a.idade}
+							</p:column>
+							<p:column headerText="Sexo">
+								#{a.sexo}
+							</p:column>
+
+							<p:column headerText="Faixa"
+								style="text-align: center; font-weight:bold; border:2px; color: #{a.faixaDeGraduacao.cor};">
+								#{a.faixaDeGraduacao}
+							</p:column>
+
+							<p:column headerText="Nome do Responsável">
+								#{a.nomeResponsavel}
+							</p:column>
+
+							<p:column headerText="Telefone do Responsável">
+								#{a.telefoneDoResponsavel}
+							</p:column>
+
+							<p:column headerText="Endereço" style="text-align:center">
+								<p:commandButton icon="pi pi-eye" update="form:dlg-endereco"
+									oncomplete="PF('dlg-endereco').show()">
+									<f:setPropertyActionListener value="#{a}"
+										target="#{turmaController.aluno}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+						<p:dataTable id="alunos-table" var="a" scrollable="true" rendered="#{turmaController.turma.id ne null}"
+							scrollWidth="true" value="#{turmaController.turma.alunos}"
+							rowHover="true" sortBy="#{a.nomeAluno}">
+
+							<f:facet name="header">
+								<h2>Lista de alunos para turma</h2>
+							</f:facet>
+
+							<p:column headerText="Nome">
+								#{a.nomeAluno}
+							</p:column>
+							<p:column headerText="CPF">
+								#{a.CPF}
+							</p:column>
+							<p:column headerText="Idade">
+								#{a.idade}
+							</p:column>
+							<p:column headerText="Sexo">
+								#{a.sexo}
+							</p:column>
+
+							<p:column headerText="Faixa"
+								style="text-align: center; font-weight:bold; border:2px; color: #{a.faixaDeGraduacao.cor};">
+								#{a.faixaDeGraduacao}
+							</p:column>
+
+							<p:column headerText="Nome do Responsável">
+								#{a.nomeResponsavel}
+							</p:column>
+
+							<p:column headerText="Telefone do Responsável">
+								#{a.telefoneDoResponsavel}
+							</p:column>
+
+							<p:column headerText="Endereço" style="text-align:center">
+								<p:commandButton icon="pi pi-eye" update="form:dlg-endereco"
+									oncomplete="PF('dlg-endereco').show()">
+									<f:setPropertyActionListener value="#{a}"
+										target="#{turmaController.aluno}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</div>
+
+					<div class="ui-g-2 ui-lg-2 ui-md-4 ui-sm-12">
+						<p:commandButton rendered="#{turmaController.turma.id == null}"
+							action="#{turmaController.cadastrar}" value="Cadastrar"
+							update="form" icon="pi pi-save" />
+
+						<p:commandButton rendered="#{turmaController.turma.id != null}"
+							action="#{turmaController.editar}" value="Editar" update="form"
+							icon="pi pi-pencil" />
+					</div>
+					<p:dialog id="dlg-endereco" widgetVar="dlg-endereco"
+						header="Endereço do Aluno">
+						<h:panelGrid columns="2">
+							<p:outputLabel for="numero" value="Número:" />
+							<h:outputText id="numero"
+								value="#{turmaController.aluno.endereco.numeroCasa}" />
+							<p:outputLabel for="rua" value="Rua:" />
+							<h:outputText id="rua"
+								value="#{turmaController.aluno.endereco.rua}" />
+							<p:outputLabel for="complemento" value="Complemento:" />
+							<h:outputText id="complemento"
+								value="#{turmaController.aluno.endereco.complemento}" />
+							<p:outputLabel for="pontoDeReferencia"
+								value="Ponto de Referência:" />
+							<h:outputText id="pontoDeReferencia"
+								value="#{turmaController.aluno.endereco.pontoReferencia}" />
+						</h:panelGrid>
+						<p:commandButton value="Fechar"
+							oncomplete="PF('dlg-endereco').hide()"
+							style="background-color:#DC3545; border:none; width:80px; height:30px;
+								  float:right" />
+					</p:dialog>
+				</h:form>
+			</div>
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>
