@@ -45,7 +45,7 @@
 
 		<org.springframework-security-config.version>3.1.4.RELEASE</org.springframework-security-config.version>
 
-		<org.springframework-security-core.version>3.1.4.RELEASE</org.springframework-security-core.version>
+		<org.springframework-security-core.version>4.2.13.RELEASE</org.springframework-security-core.version>
 
 		<javax.servlet.version>3.0.1</javax.servlet.version>
 
